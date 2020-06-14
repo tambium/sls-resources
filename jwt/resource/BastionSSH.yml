@@ -1,0 +1,15 @@
+DependsOn: ServerlessVPC
+Type: AWS::EC2::SecurityGroup
+Properties:
+  GroupDescription: Security group to allow ssh connections
+  VpcId:
+    Ref: ServerlessVPC
+  SecurityGroupIngress:
+    - IpProtocol: tcp
+      FromPort: "22"
+      ToPort: "22"
+      # providing singular ip address would be more secure
+      CidrIp: 0.0.0.0/0
+  Tags:
+    - Key: "Name"
+      Value: "Bastion SSH"

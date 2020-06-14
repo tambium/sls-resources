@@ -1,0 +1,9 @@
+DependsOn: ServerlessVPC
+Type: AWS::EC2::SecurityGroup
+Properties:
+  GroupDescription: To connect to the db
+  VpcId:
+    Ref: ServerlessVPC
+  Tags:
+    - Key: "Name"
+      Value: "BastionConnectivity"
