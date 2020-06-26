@@ -83,6 +83,8 @@ resources:
 
     BastionConnectivity: ${file(./resource/BastionConnectivity.yml)}
 
+    ImageStorage: ${file(./resource/ImageStorageBucket.yml)}
+
 functions:
   graphql:
     vpc:
@@ -108,19 +110,52 @@ functions:
       - http:
           path: /cookie_manager
           method: post
-          cors: true
-      - http:
-          path: /cookie_manager
-          method: put
-          cors: true
+          cors:
+            origin:
+              - "http://localhost:3000"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true
       - http:
           path: /cookie_manager
           method: delete
-          cors: true
+          cors:
+            origin:
+              - "http://localhost:3000"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true
   refresh_token:
     handler: packages/api/src/functions/refresh_token.handler
     events:
       - http:
           path: /refresh_token
-          method: get
+          method: post
+          cors:
+            origin:
+              - "http://localhost:3000"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true
+  image_upload:
+    handler: packages/api/src/functions/image_upload.handler
+    events:
+      - http:
+          path: /image_upload
+          method: post
           cors: true
